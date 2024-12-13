@@ -1,7 +1,7 @@
 {
   "name": "qranode",
   "prettifiedName": "QRANode",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "A wrapper for ANUs Quantum RNG API",
   "main": "qranode.js",
   "keywords": [
@@ -12,10 +12,6 @@
   ],
   "author": "0xf0xx0",
   "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "axios": "1.7.9"
-  },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xf0xx0/QRANode.git"

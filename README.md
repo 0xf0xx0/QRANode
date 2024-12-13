@@ -2,10 +2,10 @@
 
 ## A wrapper for ANUs Quantum RNG API.
 
-See here for more info: https://anuquantumoptics.org/research-topics/qrng
+See here for more info on the rng: https://quantumnumbers.anu.edu.au/
+you should donate to them too, this is really cool :3
 
 [NPM Link](https://npmjs.com/package/qranode)
-
 
 ## Installation
 
@@ -16,17 +16,19 @@ See here for more info: https://anuquantumoptics.org/research-topics/qrng
 ```js
 const qranode = require('qranode')
 
-// .then.catch
-qranode({apiKey: "THIS_IS_A_KEY", dataType: 'uint8', amount: 5}) // get 5 numbers from 0 to 255
-.then(console.log) // log the output
-.catch(console.error) // or the errors, if any
+/// get the request function
+const qrng = qranode('API_KEY_GOES_HERE', 'optional HTTP user agent string')
 
-// async/await
-let numbers = await qranode({apiKey: "THIS_IS_A_KEY", dataType: 'uint8', amount: 5}) // get 5 numbers from 0 to 65535
+/// get random uint8 (default values)
+const uint8Arr = await qrng()
+
+// .then.catch
+qrng({ dataType: 'uint8', amount: 5 }) // get 5 numbers from 0 to 255
+    .then(console.log) // log the output
+    .catch(console.error) // or the errors, if any
 
 // you can even get hex!
-
-qranode({apiKey: "THIS_IS_A_KEY", dataType: 'hex16', amount: 5, blockSize: 2}) // get 5 hex strings, each string consisting of 2 hex blocks between 0000 and ffff
+qrng({ dataType: 'hex16', amount: 5, blockSize: 2 }) // get 5 hex strings, each string consisting of 2 hex blocks between 0000 and ffff
 ```
 
 The API returns a JSON object with the success status, the type requested, the length of the array, and the array of numbers. The example below is the result of a request for two hex16 numbers with a block size of 4.
