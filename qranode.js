@@ -3,17 +3,8 @@
 const BASE_URL = 'https://api.quantumnumbers.anu.edu.au'
 const LIMIT = 1024
 const BLOCK_LIMIT = 10
-const VALID_TYPES = [
-    'uint8',
-    'uint16',
-    'hex8',
-    'hex16'
-]
-const {
-    prettifiedName,
-    name,
-    version
-} = require('./package.json')
+const VALID_TYPES = ['uint8', 'uint16', 'hex8', 'hex16']
+const { prettifiedName, name, version } = require('./package.json')
 function warning(msg) {
     console.warn(`[${prettifiedName}:Warning] | ${msg}`)
 }
@@ -54,23 +45,19 @@ function setup(apiKey, userAgent) {
         return getRandomNumbers({
             ...args,
             apiKey,
-            userAgent
+            userAgent,
         })
     }
     return wrapper
 }
 
-async function getRandomNumbers({
-    dataType = 'uint8', amount = 1, blockSize = 1,
-    apiKey, userAgent
-}) {
+async function getRandomNumbers({ dataType = 'uint8', amount = 1, blockSize = 1, apiKey, userAgent }) {
     // prepare param object
     let reqParams = {}
     // set the headers
     let HEADERS = {}
     HEADERS['x-api-key'] = apiKey
     HEADERS['x-user-agent'] = userAgent || `${name}-v${version}`
-
 
     // if theres no API key, don't bother doing anything else
     if (!apiKey) {
@@ -115,7 +102,7 @@ async function getRandomNumbers({
     // Time to get the data!
     try {
         const req = await fetch(`${BASE_URL}?${new URLSearchParams(reqParams)}`, {
-            headers: HEADERS
+            headers: HEADERS,
         })
 
         const response = await req.json()
@@ -131,9 +118,9 @@ async function getRandomNumbers({
 
 module.exports = setup
 /**
-* @deprecated
-* @param  {...any} args same as main func
-*/
+ * @deprecated
+ * @param  {...any} args same as main func
+ */
 module.exports.getRandomNumbers = (...args) => {
     console.log('getRandomNumbers is deprecated')
     return getRandomNumbers(...args)
