@@ -27,14 +27,14 @@ function warning(msg) {
  * @param {String} args.userAgent A custom user agent. If undefined, defaults to using the package name and version.
  * @param {String} [args.dataType] Must be either `uint8`, `uint16`, or `hex16`. Defaults to `uint8`.
  *
- * - `uint8` - returns numbers between 0 and 255.  
- * - `uint16` - returns numbers between 0 and 65535.  
- * - `hex8` - returns hexadecimal chunks between `00` and `ff`.  
- * - `hex16` - returns hexadecimal chunks between `0000` and `ffff`.  
+ * - `uint8` - returns numbers between 0 and 255.
+ * - `uint16` - returns numbers between 0 and 65535.
+ * - `hex8` - returns hexadecimal chunks between `00` and `ff`.
+ * - `hex16` - returns hexadecimal chunks between `0000` and `ffff`.
  * For the hexadecimal types, each block is made up of `args.blockSize` chunks.
  *
  * @param {Number} [args.amount] The amount of numbers to get. Max array size is `1024`. Defaults to `1`.
- * @param {Number} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`. 
+ * @param {Number} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`.
  * Only used with the hex types.
  * @returns {Object} A JSON object with the success status, the type requested, the length of the array, and the array of numbers.
  * @example
@@ -46,6 +46,7 @@ function warning(msg) {
     data: [ '2f2497d207a39d67', 'dd537fa2b1c4c6b2' ]
     }
  */
+/// todo: generator func
 async function getRandomNumbers({
     dataType = 'uint8', amount = 1, blockSize = 1,
     apiKey, userAgent
@@ -91,6 +92,7 @@ async function getRandomNumbers({
         if (!blockSize || typeof blockSize !== 'number' || isNaN(blockSize)) {
             throw new Error(`The 'blockSize' argument needs to be a positive integer.`)
         }
+        /// todo: these should be errors
         if (blockSize < 1) {
             warning(`The 'blockSize' argument can't be less than one. Resetting blockSize to one.`)
             blockSize = 1
