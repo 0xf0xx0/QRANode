@@ -1,13 +1,12 @@
 'use strict'
 
+const { prettifiedName, version } = require('./package.json')
 const BASE_URL = 'https://api.quantumnumbers.anu.edu.au'
+const DEFAULT_UA = `${prettifiedName}/${version}`
 const LIMIT = 1024
 const BLOCK_LIMIT = 10
 const VALID_TYPES = ['uint8', 'uint16', 'hex8', 'hex16']
-const { prettifiedName, name, version } = require('./package.json')
-function warning(msg) {
-    console.warn(`[${prettifiedName}:Warning] | ${msg}`)
-}
+
 /**
  * Get some random numbers from https://quantumnumbers.anu.edu.au.
  * @param {String} apiKey Your API key. An error will be thrown if not provided.
@@ -20,18 +19,18 @@ function setup(apiKey, userAgent) {
 
     /**
      * @async
-     * @param {Object} args
+     * @param {object} args
      * - `uint8` - returns numbers between 0 and 255.
      * - `uint16` - returns numbers between 0 and 65535.
      * - `hex8` - returns hexadecimal chunks between `00` and `ff`.
      * - `hex16` - returns hexadecimal chunks between `0000` and `ffff`.
      * For the hexadecimal types, each block is made up of `args.blockSize` chunks.
      *
-     * @param {String?} [args.dataType] Must be either `uint8`, `uint16`, or `hex16`. Defaults to `uint8`.
-     * @param {Number?} [args.amount] The amount of numbers to get. Max array size is `1024`. Defaults to `1`.
-     * @param {Number?} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`.
+     * @param {string?} [args.dataType] Must be either `uint8`, `uint16`, or `hex16`. Defaults to `uint8`.
+     * @param {number?} [args.amount] The amount of numbers to get. Max array size is `1024`. Defaults to `1`.
+     * @param {number?} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`.
      * Only used with the hex types.
-     * @returns {Promise<Object>} A JSON object with the success status, the type requested, the length of the array, and the array of numbers.
+     * @returns {Promise<{success:boolean,type:string,length:string,data:string[]|number[]}>} A JSON object with the success status, the type requested, the length of the array, and the array of numbers.
      * @example
      * // The example below is the result of a request for two hex16 numbers with a block size of 4.
      await qrng({ dataType: 'hex16', amount: 2, blockSize: 4 })
@@ -58,7 +57,7 @@ async function getRandomNumbers({ dataType = 'uint8', amount = 1, blockSize = 1,
     // set the headers
     let HEADERS = {}
     HEADERS['x-api-key'] = apiKey
-    HEADERS['x-user-agent'] = userAgent || `${name}-v${version}`
+    HEADERS['x-user-agent'] = `${userAgent} (with ${DEFAULT_UA})` || DEFAULT_UA
 
     // if theres no API key, don't bother doing anything else
     if (!apiKey) {
@@ -120,9 +119,9 @@ async function getRandomNumbers({ dataType = 'uint8', amount = 1, blockSize = 1,
 module.exports = setup
 /**
  * @deprecated
- * @param  {...any} args same as main func
+ * @param {object} args same as main func
  */
-module.exports.getRandomNumbers = (...args) => {
+module.exports.getRandomNumbers = (args) => {
     console.log('getRandomNumbers is deprecated')
-    return getRandomNumbers(...args)
+    return getRandomNumbers(args)
 }
