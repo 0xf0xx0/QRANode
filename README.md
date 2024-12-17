@@ -20,7 +20,7 @@ const qranode = require('qranode')
 const qrng = qranode('API_KEY_GOES_HERE', 'optional HTTP user agent string')
 
 /// get random uint8 (default values)
-const uint8Arr = await qrng()
+const uint8Arr = await qrng() // -> { success: true, type: 'uint8', length: '1', data: [ 126 ] }
 
 // .then.catch
 qrng({ dataType: 'uint8', amount: 5 }) // get 5 numbers from 0 to 255
