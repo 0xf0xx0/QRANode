@@ -10,9 +10,8 @@ function warning(msg) {
 }
 /**
  * Get some random numbers from https://quantumnumbers.anu.edu.au.
- * @async
  * @param {String} apiKey Your API key. An error will be thrown if not provided.
- * @param {String} userAgent A custom user agent. If undefined, defaults to using the package name and version.
+ * @param {String?} userAgent A custom user agent. If undefined, defaults to using the package name and version.
  */
 function setup(apiKey, userAgent) {
     if (!apiKey) {
@@ -20,7 +19,7 @@ function setup(apiKey, userAgent) {
     }
 
     /**
-     * @param {String} [args.dataType] Must be either `uint8`, `uint16`, or `hex16`. Defaults to `uint8`.
+     * @async
      * @param {Object} args
      * - `uint8` - returns numbers between 0 and 255.
      * - `uint16` - returns numbers between 0 and 65535.
@@ -28,17 +27,19 @@ function setup(apiKey, userAgent) {
      * - `hex16` - returns hexadecimal chunks between `0000` and `ffff`.
      * For the hexadecimal types, each block is made up of `args.blockSize` chunks.
      *
-     * @param {Number} [args.amount] The amount of numbers to get. Max array size is `1024`. Defaults to `1`.
-     * @param {Number} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`.
+     * @param {String?} [args.dataType] Must be either `uint8`, `uint16`, or `hex16`. Defaults to `uint8`.
+     * @param {Number?} [args.amount] The amount of numbers to get. Max array size is `1024`. Defaults to `1`.
+     * @param {Number?} [args.blockSize] The length of each hex block. Max block size is `10`. Defaults to `1`.
      * Only used with the hex types.
      * @returns {Promise<Object>} A JSON object with the success status, the type requested, the length of the array, and the array of numbers.
      * @example
      * // The example below is the result of a request for two hex16 numbers with a block size of 4.
+     await qrng({ dataType: 'hex16', amount: 2, blockSize: 4 })
      {
-     success: true,
-     type: 'hex16',
-     length: '2',
-     data: [ '2f2497d207a39d67', 'dd537fa2b1c4c6b2' ]
+        success: true,
+        type: 'hex16',
+        length: '2',
+        data: [ '2f2497d207a39d67', 'dd537fa2b1c4c6b2' ]
      }
     */
     function wrapper(args) {
